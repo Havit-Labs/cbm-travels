@@ -4,7 +4,7 @@ import { DefaultSession, getServerSession, NextAuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import { Adapter } from "next-auth/adapters";
 import { redirect } from "next/navigation";
-import { env } from "@/lib/env.mjs"
+import CredentialsProvider from "next-auth/providers/credentials";
 
 
 declare module "next-auth" {
@@ -38,6 +38,7 @@ export const authOptions: NextAuthOptions = {
       server: process.env.EMAIL_SERVER,
       from: process.env.EMAIL_FROM
     }),
+    
   ],
 };
 

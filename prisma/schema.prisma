@@ -7,12 +7,12 @@ generator client {
 
 generator zod {
   provider              = "zod-prisma"
-  output                = "./zod" 
-  relationModel         = true 
-  modelCase             = "camelCase" 
-  modelSuffix           = "Schema" 
-  useDecimalJs          = true 
-  prismaJsonNullability = true 
+  output                = "./zod"
+  relationModel         = true
+  modelCase             = "camelCase"
+  modelSuffix           = "Schema"
+  useDecimalJs          = true
+  prismaJsonNullability = true
 }
 
 datasource db {
@@ -20,22 +20,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
-
-  
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -66,4 +63,72 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Vehicle {
+  id        String @id @default(cuid())
+  name      String
+  departure String
+  arrival   String
+  type      String
+  price     Int
+  capacity  Int
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  drivers   Driver[]
+  bookings  Booking[]
+}
+
+model Driver {
+  id        String  @id @default(cuid())
+  firstName String
+  lastName  String?
+  email     String?
+  phone     String?
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+  vehicleId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Booking {
+  id          String  @id @default(cuid())
+  paymentType String
+  seatNumber  String
+  discount    String?
+  amountPaid  BigInt
+  vehicle     Vehicle @relation(fields: [vehicleId], references: [id])
+  vehicleId   String
+
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  passengers Passenger[]
+}
+
+model Passenger {
+  id            String  @id @default(cuid())
+  firstName     String
+  lastName      String?
+  sex           String
+  passengerType String
+  phone         String
+  booking       Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  bookingId     String
+
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  nextOfKin NextOfKin[]
+}
+
+model NextOfKin {
+  id          String    @id @default(cuid())
+  fullName    String
+  phoneNumber String
+  passenger   Passenger @relation(fields: [passengerId], references: [id], onDelete: Cascade)
+  passengerId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
