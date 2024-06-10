@@ -9,7 +9,7 @@ const baseSchema = bookingSchema.omit(timestamps)
 
 export const insertBookingSchema = baseSchema.omit({ id: true });
 export const insertBookingParams = baseSchema.extend({
-  amountPaid: z.coerce.bigint(),
+  amountPaid: z.coerce.number(),
   vehicleId: z.coerce.string().min(1)
 }).omit({ 
   id: true
@@ -17,7 +17,7 @@ export const insertBookingParams = baseSchema.extend({
 
 export const updateBookingSchema = baseSchema;
 export const updateBookingParams = updateBookingSchema.extend({
-  amountPaid: z.coerce.bigint(),
+  amountPaid: z.coerce.number(),
   vehicleId: z.coerce.string().min(1)
 })
 export const bookingIdSchema = baseSchema.pick({ id: true });

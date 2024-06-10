@@ -98,7 +98,7 @@ model Booking {
   paymentType String
   seatNumber  String
   discount    String?
-  amountPaid  BigInt
+  amountPaid  Int
   vehicle     Vehicle @relation(fields: [vehicleId], references: [id])
   vehicleId   String
 

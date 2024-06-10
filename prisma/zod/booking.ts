@@ -6,7 +6,7 @@ export const bookingSchema = z.object({
   paymentType: z.string(),
   seatNumber: z.string(),
   discount: z.string().nullish(),
-  amountPaid: z.bigint(),
+  amountPaid: z.number().int(),
   vehicleId: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),

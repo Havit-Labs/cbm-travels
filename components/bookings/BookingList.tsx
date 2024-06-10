@@ -12,21 +12,23 @@ import { useOptimisticBookings } from "@/app/(app)/bookings/useOptimisticBooking
 import { Button } from "@/components/ui/button";
 import BookingForm from "./BookingForm";
 import { PlusIcon } from "lucide-react";
+import { columns } from "@/app/(app)/bookings/columns";
+import { DataTable } from "@/app/(app)/bookings/data-table";
 
 type TOpenModal = (booking?: Booking) => void;
 
 export default function BookingList({
   bookings,
   vehicles,
-  vehicleId 
+  vehicleId,
 }: {
   bookings: CompleteBooking[];
   vehicles: Vehicle[];
-  vehicleId?: VehicleId 
+  vehicleId?: VehicleId;
 }) {
   const { optimisticBookings, addOptimisticBooking } = useOptimisticBookings(
     bookings,
-    vehicles 
+    vehicles
   );
   const [open, setOpen] = useState(false);
   const [activeBooking, setActiveBooking] = useState<Booking | null>(null);
@@ -49,7 +51,7 @@ export default function BookingList({
           openModal={openModal}
           closeModal={closeModal}
           vehicles={vehicles}
-        vehicleId={vehicleId}
+          vehicleId={vehicleId}
         />
       </Modal>
       <div className="absolute right-0 top-0 ">
@@ -60,15 +62,19 @@ export default function BookingList({
       {optimisticBookings.length === 0 ? (
         <EmptyState openModal={openModal} />
       ) : (
-        <ul>
-          {optimisticBookings.map((booking) => (
-            <Booking
-              booking={booking}
-              key={booking.id}
-              openModal={openModal}
-            />
-          ))}
-        </ul>
+        <>
+          <ul>
+            {optimisticBookings.map((booking) => (
+              <Booking
+                booking={booking}
+                key={booking.id}
+                openModal={openModal}
+              />
+            ))}
+          </ul>
+
+          <DataTable columns={columns} data={optimisticBookings} />
+        </>
       )}
     </div>
   );
@@ -89,22 +95,19 @@ const Booking = ({
     ? pathname
     : pathname + "/bookings/";
 
-
   return (
     <li
       className={cn(
         "flex justify-between my-2",
         mutating ? "opacity-30 animate-pulse" : "",
-        deleting ? "text-destructive" : "",
+        deleting ? "text-destructive" : ""
       )}
     >
       <div className="w-full">
         <div>{booking.paymentType}</div>
       </div>
       <Button variant={"link"} asChild>
-        <Link href={ basePath + "/" + booking.id }>
-          Edit
-        </Link>
+        <Link href={basePath + "/" + booking.id}>Edit</Link>
       </Button>
     </li>
   );
@@ -121,7 +124,8 @@ const EmptyState = ({ openModal }: { openModal: TOpenModal }) => {
       </p>
       <div className="mt-6">
         <Button onClick={() => openModal()}>
-          <PlusIcon className="h-4" /> New Bookings </Button>
+          <PlusIcon className="h-4" /> New Bookings{" "}
+        </Button>
       </div>
     </div>
   );
