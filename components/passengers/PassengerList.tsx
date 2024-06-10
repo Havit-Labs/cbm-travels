@@ -12,6 +12,8 @@ import { useOptimisticPassengers } from "@/app/(app)/passengers/useOptimisticPas
 import { Button } from "@/components/ui/button";
 import PassengerForm from "./PassengerForm";
 import { PlusIcon } from "lucide-react";
+import { DataTable } from "@/app/(app)/passengers/data-table";
+import { columns } from "@/app/(app)/passengers/columns";
 
 type TOpenModal = (passenger?: Passenger) => void;
 
@@ -61,6 +63,7 @@ export default function PassengerList({
         <EmptyState openModal={openModal} />
       ) : (
         <ul>
+     <DataTable columns={columns} data={optimisticPassengers} />
           {optimisticPassengers.map((passenger) => (
             <Passenger
               passenger={passenger}

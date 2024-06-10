@@ -31,6 +31,11 @@ export const additionalLinks: AdditionalLinks[] = [
         title: "Vehicles",
         icon: Globe,
       },
+      {
+        href: "/passengers",
+        title: "Passengers",
+        icon: Globe,
+      },
     ],
   },
 

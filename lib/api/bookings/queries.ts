@@ -27,3 +27,8 @@ export const getBookingByIdWithPassengers = async (id: BookingId) => {
   return { booking, vehicle:vehicle, passengers:passengers };
 };
 
+
+export const getBookingsWithPassenger = async () => {
+  const b = await db.booking.findMany({  include: {  passengers: true }});
+  return { bookings: b };
+};

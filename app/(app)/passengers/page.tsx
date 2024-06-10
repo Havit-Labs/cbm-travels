@@ -26,6 +26,7 @@ const Passengers = async () => {
   const { bookings } = await getBookings();
   return (
     <Suspense fallback={<Loading />}>
+      <pre>{JSON.stringify(passengers,null,2)}</pre>
       <PassengerList passengers={passengers} bookings={bookings} />
     </Suspense>
   );

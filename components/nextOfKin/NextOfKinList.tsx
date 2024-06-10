@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { type NextOfKin, CompleteNextOfKin } from "@/lib/db/schema/nextOfKin";
 import Modal from "@/components/shared/Modal";
 import { type Passenger, type PassengerId } from "@/lib/db/schema/passengers";
-import { useOptimisticNextOfKins } from "@/app/(app)/next-of-kin/useOptimisticNextOfKins";
+import { useOptimisticNextOfKins } from "@/app/(app)/next-of-kin/useOptimisticNextOfKin";
 import { Button } from "@/components/ui/button";
 import NextOfKinForm from "./NextOfKinForm";
 import { PlusIcon } from "lucide-react";
