@@ -87,6 +87,9 @@ const VehicleForm = ({
       createdAt: vehicle?.createdAt ?? new Date(),
       id: vehicle?.id ?? "",
       ...values,
+ 
+     
+      
     };
     try {
       startMutation(async () => {

@@ -9,7 +9,7 @@ const baseSchema = vehicleSchema.omit(timestamps)
 
 export const insertVehicleSchema = baseSchema.omit({ id: true });
 export const insertVehicleParams = baseSchema.extend({
-  price: z.coerce.bigint(),
+  price: z.coerce.number(),
   capacity: z.coerce.number()
 }).omit({ 
   id: true
@@ -17,7 +17,7 @@ export const insertVehicleParams = baseSchema.extend({
 
 export const updateVehicleSchema = baseSchema;
 export const updateVehicleParams = updateVehicleSchema.extend({
-  price: z.coerce.bigint(),
+  price: z.coerce.number(),
   capacity: z.coerce.number()
 })
 export const vehicleIdSchema = baseSchema.pick({ id: true });
