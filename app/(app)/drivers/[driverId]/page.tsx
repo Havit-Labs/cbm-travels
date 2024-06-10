@@ -2,7 +2,8 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 
 import { getDriverById } from "@/lib/api/drivers/queries";
-import { getVehicles } from "@/lib/api/vehicles/queries";import OptimisticDriver from "@/app/(app)/drivers/[driverId]/OptimisticDriver";
+import { getVehicles } from "@/lib/api/vehicles/queries";
+import OptimisticDriver from "@/app/(app)/drivers/[driverId]/OptimisticDriver";
 
 
 import { BackButton } from "@/components/shared/BackButton";
