@@ -27,7 +27,7 @@ export default async function VehiclePage({
 
 const Vehicle = async ({ id }: { id: string }) => {
   
-  const { vehicle, drivers, bookings } = await getVehicleByIdWithDriversAndBookings(id);
+  const { vehicle,  bookings } = await getVehicleByIdWithDriversAndBookings(id);
   
 
   if (!vehicle) notFound();
@@ -37,14 +37,7 @@ const Vehicle = async ({ id }: { id: string }) => {
         <BackButton currentResource="vehicles" />
         <OptimisticVehicle vehicle={vehicle}  />
       </div>
-      <div className="relative mt-8 mx-4">
-        <h3 className="text-xl font-medium mb-4">{vehicle.name}&apos;s Drivers</h3>
-        <DriverList
-          vehicles={[]}
-          vehicleId={vehicle.id}
-          drivers={drivers}
-        />
-      </div>
+    
       <div className="relative mt-8 mx-4">
         <h3 className="text-xl font-medium mb-4">{vehicle.name}&apos;s Bookings</h3>
         <BookingList

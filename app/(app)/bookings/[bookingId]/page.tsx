@@ -27,7 +27,7 @@ export default async function BookingPage({
 const Booking = async ({ id }: { id: string }) => {
   
   const { booking } = await getBookingByIdWithPassengers(id);
-  const { vehicles } = await getVehicles({});
+  const { vehicles } = await getVehicles();
 
   if (!booking) notFound();
   return (

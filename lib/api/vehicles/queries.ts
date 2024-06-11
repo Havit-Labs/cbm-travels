@@ -8,7 +8,7 @@ type Params = {
   take?: number;
 };
 
-export const getVehicles = async ({ departure, arrival, take = 20 }: Params) => {
+export const getVehiclesWithParams = async ({ departure, arrival, take = 20 }: Params) => {
 
   const v = await db.vehicle.findMany({
     where: {
@@ -16,6 +16,13 @@ export const getVehicles = async ({ departure, arrival, take = 20 }: Params) => 
       arrival,
     },
     take,
+  });
+  return { vehicles: v };
+};
+export const getVehicles = async () => {
+
+  const v = await db.vehicle.findMany({
+  
   });
   return { vehicles: v };
 };
