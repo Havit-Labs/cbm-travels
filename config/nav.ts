@@ -10,6 +10,7 @@ export const defaultLinks: SidebarLink[] = [
   { href: "/dashboard", title: "Home", icon: HomeIcon },
   { href: "/account", title: "Account", icon: Cog },
   { href: "/settings", title: "Settings", icon: Cog },
+  { href: "/bookings/create", title: "Create Booking", icon: Cog },
 ];
 
 export const additionalLinks: AdditionalLinks[] = [
@@ -17,7 +18,7 @@ export const additionalLinks: AdditionalLinks[] = [
     title: "Entities",
     links: [
       {
-        href: "/bookings",
+        href: "/passengers",
         title: "Bookings",
         icon: Globe,
       },
@@ -32,10 +33,11 @@ export const additionalLinks: AdditionalLinks[] = [
         icon: Globe,
       },
       {
-        href: "/passengers",
-        title: "Passengers",
+        href: "/bookings",
+        title: "Deprecated Bookings",
         icon: Globe,
       },
+    
     ],
   },
 

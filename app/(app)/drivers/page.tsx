@@ -23,7 +23,7 @@ export default async function DriversPage() {
 const Drivers = async () => {
   
   const { drivers } = await getDrivers();
-  const { vehicles } = await getVehicles();
+  const { vehicles } = await getVehicles({});
   return (
     <Suspense fallback={<Loading />}>
       <DriverList drivers={drivers} vehicles={vehicles} />

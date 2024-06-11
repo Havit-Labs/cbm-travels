@@ -24,16 +24,12 @@ export default async function BookingsPage() {
 const Bookings = async () => {
   
   const { bookings } = await getBookings();
-  const { vehicles } = await getVehicles();
+  const { vehicles } = await getVehicles({});
 
-  const {bookings : data} = await getBookingsWithPassenger()
 
-  const result = await  getPassengers()
- 
 
   return (
     <Suspense fallback={<Loading />}>
-      <pre>{JSON.stringify(result, null,2)}</pre>
       <BookingList bookings={bookings} vehicles={vehicles} />
     </Suspense>
   );
