@@ -1,5 +1,5 @@
 import * as z from "zod"
-import { CompleteVehicle, relatedVehicleSchema } from "./index"
+import { CompleteVehicle, relatedVehicleSchema, CompleteNextOfKin, relatedNextOfKinSchema } from "./index"
 
 export const driverSchema = z.object({
   id: z.string(),
@@ -7,13 +7,17 @@ export const driverSchema = z.object({
   lastName: z.string().nullish(),
   email: z.string().nullish(),
   phone: z.string().nullish(),
+  address: z.string().nullish(),
+  licenseNumber: z.string().nullish(),
   vehicleId: z.string(),
+  resumptionDate: z.date().nullish(),
   createdAt: z.date(),
   updatedAt: z.date(),
 })
 
 export interface CompleteDriver extends z.infer<typeof driverSchema> {
   vehicle: CompleteVehicle
+  nextOfKin?: CompleteNextOfKin | null
 }
 
 /**
@@ -23,4 +27,5 @@ export interface CompleteDriver extends z.infer<typeof driverSchema> {
  */
 export const relatedDriverSchema: z.ZodSchema<CompleteDriver> = z.lazy(() => driverSchema.extend({
   vehicle: relatedVehicleSchema,
+  nextOfKin: relatedNextOfKinSchema.nullish(),
 }))

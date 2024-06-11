@@ -59,11 +59,11 @@ export default function PassengerList({
           +
         </Button>
       </div>
-      {optimisticPassengers.length === 0 ? (
+      {!optimisticPassengers ? (
         <EmptyState openModal={openModal} />
       ) : (
         <ul>
-     <DataTable columns={columns} data={optimisticPassengers} />
+ 
           {optimisticPassengers.map((passenger) => (
             <Passenger
               passenger={passenger}

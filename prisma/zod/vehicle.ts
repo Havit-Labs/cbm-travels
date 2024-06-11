@@ -14,7 +14,7 @@ export const vehicleSchema = z.object({
 })
 
 export interface CompleteVehicle extends z.infer<typeof vehicleSchema> {
-  drivers: CompleteDriver[]
+  drivers?: CompleteDriver | null
   bookings: CompleteBooking[]
 }
 
@@ -24,6 +24,6 @@ export interface CompleteVehicle extends z.infer<typeof vehicleSchema> {
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const relatedVehicleSchema: z.ZodSchema<CompleteVehicle> = z.lazy(() => vehicleSchema.extend({
-  drivers: relatedDriverSchema.array(),
+  drivers: relatedDriverSchema.nullish(),
   bookings: relatedBookingSchema.array(),
 }))

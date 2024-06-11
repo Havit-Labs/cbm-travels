@@ -19,7 +19,7 @@ export const getBookingByIdWithPassengers = async (id: BookingId) => {
   const { id: bookingId } = bookingIdSchema.parse({ id });
   const b = await db.booking.findFirst({
     where: { id: bookingId},
-    include: { vehicle: { include: {bookings: true } }, passengers: { include: {booking: true } } }
+    include: { vehicle: { include: {bookings: true } }, passenger: { include: {booking: true } } }
   });
   if (b === null) return { booking: null };
   const { vehicle, passengers, ...booking } = b;
@@ -29,6 +29,6 @@ export const getBookingByIdWithPassengers = async (id: BookingId) => {
 
 
 export const getBookingsWithPassenger = async () => {
-  const b = await db.booking.findMany({  include: {  passengers: true }});
+  const b = await db.booking.findMany({  include: {  passenger: true }});
   return { bookings: b };
 };

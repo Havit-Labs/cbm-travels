@@ -14,8 +14,8 @@ export const passengerSchema = z.object({
 })
 
 export interface CompletePassenger extends z.infer<typeof passengerSchema> {
-  booking: CompleteBooking
-  nextOfKin: CompleteNextOfKin[]
+  booking?: CompleteBooking | null
+  nextOfKin?: CompleteNextOfKin | null
 }
 
 /**
@@ -24,6 +24,6 @@ export interface CompletePassenger extends z.infer<typeof passengerSchema> {
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const relatedPassengerSchema: z.ZodSchema<CompletePassenger> = z.lazy(() => passengerSchema.extend({
-  booking: relatedBookingSchema,
-  nextOfKin: relatedNextOfKinSchema.array(),
+  booking: relatedBookingSchema.nullish(),
+  nextOfKin: relatedNextOfKinSchema.nullish(),
 }))

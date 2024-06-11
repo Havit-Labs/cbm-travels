@@ -14,7 +14,7 @@ export const bookingSchema = z.object({
 
 export interface CompleteBooking extends z.infer<typeof bookingSchema> {
   vehicle: CompleteVehicle
-  passengers: CompletePassenger[]
+  passenger?: CompletePassenger | null
 }
 
 /**
@@ -24,5 +24,5 @@ export interface CompleteBooking extends z.infer<typeof bookingSchema> {
  */
 export const relatedBookingSchema: z.ZodSchema<CompleteBooking> = z.lazy(() => bookingSchema.extend({
   vehicle: relatedVehicleSchema,
-  passengers: relatedPassengerSchema.array(),
+  passenger: relatedPassengerSchema.nullish(),
 }))
