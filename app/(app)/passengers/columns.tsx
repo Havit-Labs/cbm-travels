@@ -1,8 +1,9 @@
 "use client"
 
-import { CompleteBooking } from "@/lib/db/schema/bookings"
 import { CompletePassenger } from "@/lib/db/schema/passengers"
 import { ColumnDef } from "@tanstack/react-table"
+
+ 
 
 
 export const columns: ColumnDef<CompletePassenger>[] = [
@@ -20,23 +21,29 @@ export const columns: ColumnDef<CompletePassenger>[] = [
     header: "Payment Type",
   },
   {
-    accessorKey: "booking.paymentType",
+    accessorKey: "booking.seatNumber",
     header: "Seat(s)",
   },
   {
-    accessorKey: "booking.paymentType",
+    accessorKey: "sex",
     header: "Gender",
   },
   {
-    accessorKey: "booking.paymentType",
+    accessorKey: "booking.vehicle.departure",
     header: "Departure",
   },
   {
-    accessorKey: "booking.paymentType",
+    accessorKey: "booking.vehicle.arrival",
     header: "Arrival",
   },
   {
-    accessorKey: "Booking Date",
+    accessorKey: "booking.createdAt",
     header: "Booking Date",
+    cell: ({ row }) => {
+      const {booking} = row.original;
+  
+       return new Date(booking.createdAt).toLocaleDateString();
+     },
   },
+
 ]

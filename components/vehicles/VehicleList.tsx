@@ -12,20 +12,18 @@ import { useOptimisticVehicles } from "@/app/(app)/vehicles/useOptimisticVehicle
 import { Button } from "@/components/ui/button";
 import VehicleForm from "./VehicleForm";
 import { PlusIcon } from "lucide-react";
+import { DataTable } from "@/app/(app)/vehicles/data-table";
+import { columns } from "@/app/(app)/vehicles/columns";
 
 type TOpenModal = (vehicle?: Vehicle) => void;
 
 export default function VehicleList({
   vehicles,
-   
 }: {
   vehicles: CompleteVehicle[];
-   
 }) {
-  const { optimisticVehicles, addOptimisticVehicle } = useOptimisticVehicles(
-    vehicles,
-     
-  );
+  const { optimisticVehicles, addOptimisticVehicle } =
+    useOptimisticVehicles(vehicles);
   const [open, setOpen] = useState(false);
   const [activeVehicle, setActiveVehicle] = useState<Vehicle | null>(null);
   const openModal = (vehicle?: Vehicle) => {
@@ -46,7 +44,6 @@ export default function VehicleList({
           addOptimistic={addOptimisticVehicle}
           openModal={openModal}
           closeModal={closeModal}
-          
         />
       </Modal>
       <div className="absolute right-0 top-0 ">
@@ -57,15 +54,7 @@ export default function VehicleList({
       {optimisticVehicles.length === 0 ? (
         <EmptyState openModal={openModal} />
       ) : (
-        <ul>
-          {optimisticVehicles.map((vehicle) => (
-            <Vehicle
-              vehicle={vehicle}
-              key={vehicle.id}
-              openModal={openModal}
-            />
-          ))}
-        </ul>
+        <DataTable columns={columns} data={optimisticVehicles} />
       )}
     </div>
   );
@@ -86,22 +75,19 @@ const Vehicle = ({
     ? pathname
     : pathname + "/vehicles/";
 
-
   return (
     <li
       className={cn(
         "flex justify-between my-2",
         mutating ? "opacity-30 animate-pulse" : "",
-        deleting ? "text-destructive" : "",
+        deleting ? "text-destructive" : ""
       )}
     >
       <div className="w-full">
         <div>{vehicle.name}</div>
       </div>
       <Button variant={"link"} asChild>
-        <Link href={ basePath + "/" + vehicle.id }>
-          Edit
-        </Link>
+        <Link href={basePath + "/" + vehicle.id}>Edit</Link>
       </Button>
     </li>
   );
@@ -118,7 +104,8 @@ const EmptyState = ({ openModal }: { openModal: TOpenModal }) => {
       </p>
       <div className="mt-6">
         <Button onClick={() => openModal()}>
-          <PlusIcon className="h-4" /> New Vehicles </Button>
+          <PlusIcon className="h-4" /> New Vehicles{" "}
+        </Button>
       </div>
     </div>
   );

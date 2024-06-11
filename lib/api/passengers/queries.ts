@@ -2,7 +2,13 @@ import { db } from "@/lib/db/index";
 import { type PassengerId, passengerIdSchema } from "@/lib/db/schema/passengers";
 
 export const getPassengers = async () => {
-  const p = await db.passenger.findMany({include: { booking: true}});
+  const p = await db.passenger.findMany({ include: {
+    booking: {
+      include: {
+        vehicle: true
+      }
+    }
+  }});
   return { passengers: p };
 };
 

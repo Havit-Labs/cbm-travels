@@ -17,11 +17,11 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
-import { CompletePassenger } from "@/lib/db/schema/passengers"
+import { CompleteDriver } from "@/lib/db/schema/drivers"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: CompletePassenger[]
+  data: CompleteDriver[]
 }
 
 export function DataTable<TData, TValue>({
