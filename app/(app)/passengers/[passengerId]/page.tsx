@@ -26,7 +26,7 @@ export default async function PassengerPage({
 
 const Passenger = async ({ id }: { id: string }) => {
   
-  const { passenger, nextOfKin } = await getPassengerByIdWithNextOfKin(id);
+  const { passenger,  } = await getPassengerByIdWithNextOfKin(id);
   const { bookings } = await getBookings();
 
   if (!passenger) notFound();
@@ -36,14 +36,7 @@ const Passenger = async ({ id }: { id: string }) => {
         <BackButton currentResource="passengers" />
         <OptimisticPassenger passenger={passenger} bookings={bookings} />
       </div>
-      <div className="relative mt-8 mx-4">
-        <h3 className="text-xl font-medium mb-4">{passenger.firstName}&apos;s Next Of Kin</h3>
-        <NextOfKinList
-          passengers={[]}
-          passengerId={passenger.id}
-          nextOfKin={nextOfKin}
-        />
-      </div>
+     
     </Suspense>
   );
 };
