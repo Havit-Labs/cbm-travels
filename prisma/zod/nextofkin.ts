@@ -5,7 +5,7 @@ export const nextOfKinSchema = z.object({
   id: z.string(),
   fullName: z.string(),
   phoneNumber: z.string(),
-  driverId: z.string(),
+  driverId: z.string().nullish(),
   passengerId: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),

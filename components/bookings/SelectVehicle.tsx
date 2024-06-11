@@ -9,7 +9,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Modal from "../shared/Modal";
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useRef, useState, useTransition } from "react";
+import { useReactToPrint } from "react-to-print";
 import {
   Booking,
   NewBookingParams,
@@ -76,7 +77,7 @@ export const SelectVehicle = ({
   const { selectedSeats, addSeat, removeSeat, clearSeats } = useBookingStore();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const { replace } = useRouter();
+  const { replace, push } = useRouter();
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
 
@@ -107,6 +108,12 @@ export const SelectVehicle = ({
   });
 
   const [pending, startMutation] = useTransition();
+  const componentRef = useRef(null);
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
+  const [responses,setReponses] = useState<any>(null)
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -130,21 +137,40 @@ export const SelectVehicle = ({
           passengerType: "ADULT",
           phone: values.phone,
         });
+        setReponses({passenger:passemgerResponse.passenger})
         console.log("passemgerResponse", passemgerResponse);
 
         const nextOfKinResponse = await createNextOfKin({
-            fullName: values.next_of_kin_full_name,
-            phoneNumber: values.next_of_kin_phone,
-            passengerId: passemgerResponse.passenger.id,
-            driverId: "clxagn9dt000zdebogf9a1a6q"
-        })
+          fullName: values.next_of_kin_full_name,
+          phoneNumber: values.next_of_kin_phone,
+          passengerId: passemgerResponse.passenger.id,
+        });
         console.log("nextOfKinResponse", nextOfKinResponse);
+          setReponses({...responses,nestOfKin:nextOfKinResponse.nextOfKin})
+        // push("/print")
+        handlePrint();
+        setOpen2(false);
       });
     } catch (e) {}
   }
 
   return (
     <div className="bg-gray-100 rounded-lg p-6 space-y-2">
+      <Button onClick={handlePrint}>Print modal</Button>
+      <div ref={componentRef} className="hidden print:block grid grid-cols-1">
+        <p className="text-center">ww.travelcbn.com</p>
+        <p className="text-center">
+          Booking Receipt {new Date().toISOString().slice(0, 10)}
+        </p>
+        <div className="grid grid-cols-2"></div>
+        <p className="text-center">
+          For enquires please call: 08037015262, 09035913402, 09030544531
+        </p>
+        <p className="text-center">
+          Please note that there is no refund of money after payment Ticket not
+          transferable. Ticket valid for 1 trip.
+        </p>
+      </div>
       <h1 className="font-bold text-3xl">{vehicle.type}</h1>
       <p>{vehicle.capacity} seats available</p>
       <p className="font-bold text-2xl">₦ {vehicle.price.toLocaleString()}</p>

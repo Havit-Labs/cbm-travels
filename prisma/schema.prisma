@@ -130,9 +130,9 @@ model NextOfKin {
   id          String    @id @default(cuid())
   fullName    String
   phoneNumber String
-  passenger   Passenger? @relation(fields: [passengerId], references: [id], onDelete: Cascade)
-  driver   Driver? @relation(fields: [driverId], references: [id], onDelete: Cascade)
-  driverId String @unique
+  passenger   Passenger? @relation(fields: [passengerId], references: [id])
+  driver   Driver? @relation(fields: [driverId], references: [id])
+  driverId String? @unique
   passengerId String @unique
 
   createdAt DateTime @default(now())

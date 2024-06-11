@@ -110,7 +110,7 @@ CREATE TABLE "NextOfKin" (
     "id" TEXT NOT NULL,
     "fullName" TEXT NOT NULL,
     "phoneNumber" TEXT NOT NULL,
-    "driverId" TEXT NOT NULL,
+    "driverId" TEXT,
     "passengerId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -161,7 +161,7 @@ ALTER TABLE "Booking" ADD CONSTRAINT "Booking_vehicleId_fkey" FOREIGN KEY ("vehi
 ALTER TABLE "Passenger" ADD CONSTRAINT "Passenger_bookingId_fkey" FOREIGN KEY ("bookingId") REFERENCES "Booking"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "NextOfKin" ADD CONSTRAINT "NextOfKin_passengerId_fkey" FOREIGN KEY ("passengerId") REFERENCES "Passenger"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "NextOfKin" ADD CONSTRAINT "NextOfKin_passengerId_fkey" FOREIGN KEY ("passengerId") REFERENCES "Passenger"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "NextOfKin" ADD CONSTRAINT "NextOfKin_driverId_fkey" FOREIGN KEY ("driverId") REFERENCES "Driver"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "NextOfKin" ADD CONSTRAINT "NextOfKin_driverId_fkey" FOREIGN KEY ("driverId") REFERENCES "Driver"("id") ON DELETE SET NULL ON UPDATE CASCADE;
