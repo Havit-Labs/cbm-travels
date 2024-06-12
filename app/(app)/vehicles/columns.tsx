@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
 import { CompleteVehicle } from "@/lib/db/schema/vehicles";
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef } from "@tanstack/react-table";
 
-import { MoreHorizontal } from "lucide-react"
- 
-import { Button } from "@/components/ui/button"
+import { MoreHorizontal } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,16 +13,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import Link from "next/link";
- 
-
 
 export const columns: ColumnDef<CompleteVehicle>[] = [
   {
     accessorKey: "name",
     header: "Name",
-   
   },
   {
     accessorKey: "type",
@@ -32,7 +29,7 @@ export const columns: ColumnDef<CompleteVehicle>[] = [
     accessorKey: "price",
     header: "Price",
   },
- 
+
   {
     accessorKey: "departure",
     header: "Departure",
@@ -44,8 +41,8 @@ export const columns: ColumnDef<CompleteVehicle>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const vehicle = row.original
- 
+      const vehicle = row.original;
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -56,18 +53,18 @@ export const columns: ColumnDef<CompleteVehicle>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-           
+
             <DropdownMenuSeparator />
-            <DropdownMenuItem> View Manifest</DropdownMenuItem>
-            <Link href={`/vehicles/${vehicle.id}`}>
-            <DropdownMenuItem>  Edit</DropdownMenuItem>
+            <Link href={`/manifest/${vehicle.id}`}>
+              <DropdownMenuItem>View Manifest</DropdownMenuItem>
             </Link>
-            <DropdownMenuItem className="text-red-500" >Delete</DropdownMenuItem>
+            <Link href={`/vehicles/${vehicle.id}`}>
+              <DropdownMenuItem> Edit</DropdownMenuItem>
+            </Link>
+            <DropdownMenuItem className="text-red-500">Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
- 
-
-]
+];
