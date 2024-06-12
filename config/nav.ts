@@ -15,7 +15,7 @@ export const defaultLinks: SidebarLink[] = [
 
 export const additionalLinks: AdditionalLinks[] = [
   {
-    title: "Entities",
+    title: "Manage Trips",
     links: [
       {
         href: "/passengers",
@@ -32,12 +32,7 @@ export const additionalLinks: AdditionalLinks[] = [
         title: "Vehicles",
         icon: Globe,
       },
-      {
-        href: "/bookings",
-        title: "Deprecated Bookings",
-        icon: Globe,
-      },
-    
+     
     ],
   },
 
