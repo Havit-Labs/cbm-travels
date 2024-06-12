@@ -1,6 +1,13 @@
 "use client";
-import { Vehicle } from "@/lib/db/schema/vehicles";
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -8,39 +15,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Modal from "../shared/Modal";
-import { useMemo, useRef, useState, useTransition } from "react";
-import { useReactToPrint } from "react-to-print";
 import {
   Booking,
-  NewBookingParams,
-  insertBookingParams,
+  NewBookingParams
 } from "@/lib/db/schema/bookings";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { Vehicle } from "@/lib/db/schema/vehicles";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useMemo, useRef, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { useReactToPrint } from "react-to-print";
 import { z } from "zod";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import Modal from "../shared/Modal";
 
-import { useBookingStore } from "@/zust/booking.zust";
-import { Input } from "../ui/input";
-import { createBookingAction } from "@/lib/actions/bookings";
 import { createBooking } from "@/lib/api/bookings/mutations";
-import Loading from "@/app/loading";
-import { Loader } from "lucide-react";
-import { createPassenger } from "@/lib/api/passengers/mutations";
-import { NewPassengerParams } from "@/lib/db/schema/passengers";
 import { createNextOfKin } from "@/lib/api/nextOfKin/mutations";
+import { createPassenger } from "@/lib/api/passengers/mutations";
+import { useBookingStore } from "@/zust/booking.zust";
+import { ChevronRight, Loader } from "lucide-react";
+import { Input } from "../ui/input";
+import { Receipt } from "./Receipt";
 
 const formSchema = z.object({
   firstName: z.string().min(2, {
@@ -77,7 +72,7 @@ export const SelectVehicle = ({
   const { selectedSeats, addSeat, removeSeat, clearSeats } = useBookingStore();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const { replace, push } = useRouter();
+  const { replace } = useRouter();
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
 
@@ -113,9 +108,14 @@ export const SelectVehicle = ({
     content: () => componentRef.current,
   });
 
-  const [responses,setReponses] = useState<any>(null)
+  const [responses, setReponses] = useState<any>({
+   
+  });
+  const [savedBooking, setSavedBooking] = useState<Booking>({
+    seatNumber: "sss",
+  } as Booking);
 
-  // 2. Define a submit handler.
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("values", values);
 
@@ -128,6 +128,7 @@ export const SelectVehicle = ({
           seatNumber: selectedSeats.join(","),
         } as NewBookingParams);
         console.log("response", response);
+        setSavedBooking(response.booking);
 
         const passemgerResponse = await createPassenger({
           bookingId: response.booking.id,
@@ -137,8 +138,6 @@ export const SelectVehicle = ({
           passengerType: "ADULT",
           phone: values.phone,
         });
-        setReponses({passenger:passemgerResponse.passenger})
-        console.log("passemgerResponse", passemgerResponse);
 
         const nextOfKinResponse = await createNextOfKin({
           fullName: values.next_of_kin_full_name,
@@ -146,7 +145,10 @@ export const SelectVehicle = ({
           passengerId: passemgerResponse.passenger.id,
         });
         console.log("nextOfKinResponse", nextOfKinResponse);
-          setReponses({...responses,nestOfKin:nextOfKinResponse.nextOfKin})
+        setReponses({
+          passenger: passemgerResponse.passenger,
+          nextOfKin: nextOfKinResponse.nextOfKin,
+        });
         // push("/print")
         handlePrint();
         setOpen2(false);
@@ -156,22 +158,18 @@ export const SelectVehicle = ({
 
   return (
     <div className="bg-gray-100 rounded-lg p-6 space-y-2">
-      <Button onClick={handlePrint}>Print modal</Button>
-      <div ref={componentRef} className="hidden print:block grid grid-cols-1">
-        <p className="text-center">ww.travelcbn.com</p>
-        <p className="text-center">
-          Booking Receipt {new Date().toISOString().slice(0, 10)}
-        </p>
-        <div className="grid grid-cols-2"></div>
-        <p className="text-center">
-          For enquires please call: 08037015262, 09035913402, 09030544531
-        </p>
-        <p className="text-center">
-          Please note that there is no refund of money after payment Ticket not
-          transferable. Ticket valid for 1 trip.
-        </p>
-      </div>
+      <Receipt
+        componentRef={componentRef}
+        vehicle={vehicle}
+        responses={responses}
+        savedBooking={savedBooking}
+      />
       <h1 className="font-bold text-3xl">{vehicle.type}</h1>
+      <div className="flex items-center">
+        <p>{vehicle.departure}</p>
+        <ChevronRight size={16} />
+        <p>{vehicle.arrival}</p>
+      </div>
       <p>{vehicle.capacity} seats available</p>
       <p className="font-bold text-2xl">₦ {vehicle.price.toLocaleString()}</p>
 

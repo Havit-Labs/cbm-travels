@@ -26,7 +26,8 @@ export function BookTicketForm() {
   }
 
   return (
-
+    <div>
+      <h1 className="py-2 font-bold text-xl">Create Booking</h1>
       <div className="grid grid-cols-2 gap-4">
         <Select onValueChange={(val) => handleSearch("d", val)}>
           <SelectTrigger>
@@ -61,6 +62,6 @@ export function BookTicketForm() {
           </SelectContent>
         </Select>
       </div>
-   
+    </div>
   );
 }
