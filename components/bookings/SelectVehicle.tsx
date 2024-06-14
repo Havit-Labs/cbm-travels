@@ -6,7 +6,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@/components/ui/form";
 import {
   Select,
@@ -15,10 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Booking,
-  NewBookingParams
-} from "@/lib/db/schema/bookings";
+import { Booking, NewBookingParams } from "@/lib/db/schema/bookings";
 import { Vehicle } from "@/lib/db/schema/vehicles";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -108,13 +105,10 @@ export const SelectVehicle = ({
     content: () => componentRef.current,
   });
 
-  const [responses, setReponses] = useState<any>({
-   
-  });
+  const [responses, setReponses] = useState<any>({});
   const [savedBooking, setSavedBooking] = useState<Booking>({
     seatNumber: "sss",
   } as Booking);
-
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("values", values);
@@ -157,7 +151,7 @@ export const SelectVehicle = ({
   }
 
   return (
-    <div className="bg-gray-100 rounded-lg p-6 space-y-2">
+    <div className="bg-muted rounded-lg p-6 space-y-2">
       <Receipt
         componentRef={componentRef}
         vehicle={vehicle}
