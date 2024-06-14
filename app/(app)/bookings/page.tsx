@@ -2,9 +2,8 @@ import { Suspense } from "react";
 
 import Loading from "@/app/loading";
 import BookingList from "@/components/bookings/BookingList";
-import { getBookings, getBookingsWithPassenger } from "@/lib/api/bookings/queries";
+import { getBookings } from "@/lib/api/bookings/queries";
 import { getVehicles } from "@/lib/api/vehicles/queries";
-import {  getPassengers, } from "@/lib/api/passengers/queries";
 
 export const revalidate = 0;
 
