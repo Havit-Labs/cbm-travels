@@ -21,11 +21,8 @@ export default async function BookingsPage() {
 }
 
 const Bookings = async () => {
-  
   const { bookings } = await getBookings();
-  const { vehicles } = await getVehicles({});
-
-
+  const { vehicles } = await getVehicles();
 
   return (
     <Suspense fallback={<Loading />}>
